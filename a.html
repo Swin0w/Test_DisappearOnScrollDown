@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100px;
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+            z-index: 999;
+            background-color: #000000;
+        }
+        .header-container.init {
+            transform: translateY(0);
+        }
+        .header-container.is-open {
+            transform: translateY(-100%);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">a</div>
+    </header>
+    <p style="height: 300vh; margin-top: 100px;"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sint repellendus, quis aliquid consequatur dolorem quod! Aspernatur commodi suscipit libero nisi eum officia reiciendis nemo aperiam, impedit voluptates tempore accusamus.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum natus vero cupiditate iusto mollitia nostrum odio, quis reprehenderit, optio, labore corrupti. Accusantium, consectetur voluptate. Velit, cupiditate! Earum fuga officia sunt.
+    </p>
+    <script>
+    // FIXED HEADER ON SCROLL
+
+    let currentScrollPosition = 0;
+    let tempScrollPosition = 0;
+    let deltaPos = 0;
+    const minPos = 100;
+
+    const fixedHeaderMobile = document.querySelector('.header-container');
+
+    function showFixedMobileNav() {
+        // Salviamo il valore dello scroll corrente
+        currentScrollPosition = window.scrollY;
+
+        // Calcoliamo la differenza tra lo scroll corrente e quello immediamente precedente
+        deltaPos = currentScrollPosition - tempScrollPosition;
+
+        // Aggiungiamo o togliamo le classi per far comparire il menù
+        if (deltaPos > 0 && currentScrollPosition > minPos) {
+            fixedHeaderMobile.classList.add('is-open');    
+        } else if (deltaPos < 0 && currentScrollPosition < minPos){
+            fixedHeaderMobile.classList.remove('init');
+            fixedHeaderMobile.classList.remove('is-open');
+        } else if (currentScrollPosition > minPos){
+            fixedHeaderMobile.classList.add('init');
+            fixedHeaderMobile.classList.remove('is-open');
+        }
+
+        // Salviamo il valore dello scroll corrente
+        tempScrollPosition = currentScrollPosition;
+    }
+
+    // Associamo la funzione sia all'evento scroll che all'evento touch
+    document.addEventListener("touchmove", showFixedMobileNav, false);
+    document.addEventListener("scroll", showFixedMobileNav, false);
+    </script>
+</body>
+</html>
